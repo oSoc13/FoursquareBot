@@ -2,7 +2,6 @@ package sample;
 
 
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,19 +19,22 @@ import java.util.regex.Pattern;
  */
 public class RouterMacRetriever {
 
-    public RouterMacRetriever(){
-
+    String getMACAddress(){
+        try {
+            return getRouterMac(getRouterIP());
+        } catch (IOException e) {
+            System.out.println("Problem finding MAC address");
+        }
+        return null;
     }
 
-    public static void main(String[] args) throws IOException {
-        Process process = null;
-        String routerIp = getRouterIP();
-        String routerMac = getRouterMac(routerIp);
-
-
+    public static void main(String[] args)throws IOException {
+        RouterMacRetriever retriever = new RouterMacRetriever();
+        String mac = retriever.getMACAddress();
+        System.out.println("Mac adress: " + mac);
     }
 
-    private static String getRouterMac(String routerIp) throws IOException {
+    private String getRouterMac(String routerIp) throws IOException {
         Process process;
         if (OSChecker.isMac()){
             String cmd[] = {
@@ -61,8 +63,7 @@ public class RouterMacRetriever {
         return "";
     }
 
-    private static String getRouterIP() throws IOException {
-        Process process;
+    private String getRouterIP() throws IOException {
         String result = "";
         if (OSChecker.isMac()){
             String cmd[] = {
@@ -71,19 +72,31 @@ public class RouterMacRetriever {
                     "netstat -rn | grep default"
             };
 
-            process = Runtime.getRuntime().exec(cmd);
+            Process process = Runtime.getRuntime().exec(cmd);
             result = parseIPMac(getProcessResult(process));
         }else if(OSChecker.isWindows()){
-            process = Runtime.getRuntime().exec("");
+            Process process = Runtime.getRuntime().exec("");
         }else if(OSChecker.isUnix()){
-            process = Runtime.getRuntime().exec("netstat -rn | grep 0.0.0.0");
+            Process process = Runtime.getRuntime().exec("arp");
+            return  parseMACLinux(getProcessResult(process));
         }else{
             throw new RuntimeException("Unsupported OS");//bad runtime
         }
         return result;
     }
 
-    private static String parseIPMac(List<String> input) {
+    private String parseMACLinux(List<String> result) {
+        String s = result.get(1);
+
+        Matcher matcher = Pattern.compile(".*\\s(([0-9a-z]{1,2}:){5}[0-9a-z]{1,2})\\s.*").matcher(s);
+        if(matcher.matches()){
+            System.out.println(matcher.group(1));
+            return matcher.group(1);
+        }
+        return null; // todo
+    }
+
+    private String parseIPMac(List<String> input) {
         String s = input.get(0);
         Matcher matcher = Pattern.compile(".*\\s(\\d{1,3}.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})\\s.*").matcher(s);
         if(matcher.matches()){
@@ -95,7 +108,7 @@ public class RouterMacRetriever {
 
     }
 
-    private static List<String> getProcessResult(Process process){
+    private List<String> getProcessResult(Process process){
         BufferedReader stdInput = new BufferedReader(new
                 InputStreamReader(process.getInputStream()));
         List<String> resultList = new ArrayList<String>();
@@ -113,7 +126,7 @@ public class RouterMacRetriever {
         return resultList;
     }
 
-    private static String parseMACMac(List<String> result){
+    private String parseMACMac(List<String> result){
         String s = result.get(0);
 
         Matcher matcher = Pattern.compile(".*\\s(([0-9a-z]{1,2}:){5}[0-9a-z]{1,2})\\s.*").matcher(s);
@@ -121,7 +134,7 @@ public class RouterMacRetriever {
             System.out.println(matcher.group(1));
             return matcher.group(1);
         }else {
-            throw new RuntimeException("No router ip found");
+            throw new RuntimeException("No router mac found");
         }
     }
 }
