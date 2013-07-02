@@ -35,13 +35,14 @@ public class Main extends Application {
 
         FoursquareAPI fsAPI = new FoursquareAPI();
 
+        ConnectionChecker checker = new ConnectionChecker(fsAPI);
         // Authenticate user
         //String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
         //fsAPI.authenticateClient();
         //fsAPI.submitAccessCode(code);
 
         // Search for venues
-        try {
+        /*try {
             Vector<String> venues = fsAPI.getNearbyVenues("50.951983,5.348959");
             if (null != venues) {
                 fsAPI.checkInAt("Mobile Vikings");
@@ -50,7 +51,7 @@ public class Main extends Application {
             }
         } catch (FoursquareApiException e) {
             e.printStackTrace();
-        }
+        } */
 
 
     }

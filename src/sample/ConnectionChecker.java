@@ -1,8 +1,11 @@
 package sample;
 
+import fi.foyt.foursquare.api.FoursquareApiException;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -47,6 +50,16 @@ public class ConnectionChecker {
     }
 
     private void doCheckIn() {
-        //check in logic
+        try {
+            Vector<String> venues = api.getNearbyVenues("50.951983,5.348959");
+            if (null != venues) {
+                api.checkInAt("Mobile Vikings");
+            }
+            else {
+            }
+        } catch (FoursquareApiException e) {
+            e.printStackTrace();
+        }
+
     }
 }
