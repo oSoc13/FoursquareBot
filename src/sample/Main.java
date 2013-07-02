@@ -4,6 +4,7 @@
 
 package sample;
 
+import fi.foyt.foursquare.api.FoursquareApiException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,6 +16,8 @@ import javafx.stage.WindowEvent;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+
+import java.util.Vector;
 
 public class Main extends Application {
     private boolean firstTime;
@@ -34,6 +37,27 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
+        FoursquareAPI fsAPI = new FoursquareAPI();
+
+        // Authenticate user
+        String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
+        fsAPI.authenticateClient();
+        fsAPI.submitAccessCode(code);
+
+        // Search for venues
+        try {
+            Vector<String> venues = fsAPI.getNearbyVenues("50.951983,5.348959");
+            if (null != venues) {
+                fsAPI.checkInAt("Mobile Vikings");
+            }
+            else {
+            }
+        } catch (FoursquareApiException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public void createTrayIcon(final Stage stage)

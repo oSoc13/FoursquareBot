@@ -10,23 +10,28 @@
 
 package sample;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Properties;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Vector;
 import fi.foyt.foursquare.api.FoursquareApi;
 import fi.foyt.foursquare.api.entities.CompactVenue;
 import fi.foyt.foursquare.api.FoursquareApiException;
 import fi.foyt.foursquare.api.Result;
 import fi.foyt.foursquare.api.entities.VenuesSearchResult;
+import org.json.JSONException;
 
 public class FoursquareAPI {
 
     private FoursquareApi foursquareApi;
     private Properties properties = new Properties();
 
-    public void initialize() {
+    public FoursquareAPI() {
 
         String clientID;
         String clientSecret;
@@ -37,9 +42,6 @@ public class FoursquareAPI {
             clientID = properties.getProperty("clientID");
             clientSecret = properties.getProperty("clientSecret");
             clientURL = properties.getProperty("clientURL");
-            System.out.println("clientID = " + clientID);
-            System.out.println("clientSecret = " + clientSecret);
-            System.out.println("clientURL = " + clientURL);
 
             foursquareApi = new FoursquareApi(clientID, clientSecret, clientURL);
         } catch (IOException e) {
@@ -47,45 +49,44 @@ public class FoursquareAPI {
         }
     }
 
-    // Venue Search
-    public void searchVenues(String ll) throws FoursquareApiException {
-
-        // After client has been initialized we can make queries.
-        Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
+    // Adapted from https://code.google.com/p/foursquare-api-java/wiki/BasicUsage
+    // latlon String format: lat,lon     e.g. 50.951983,5.348959
+    public Vector<String> getNearbyVenues(String latlon) throws FoursquareApiException {
+        Result<VenuesSearchResult> result = foursquareApi.venuesSearch(latlon, null, null, null, null, null, null, null, null, null, null);
 
         System.out.println("Venue List:");
         if (result.getMeta().getCode() == 200) {
             // if query was ok we can finally we do something with the data
             CompactVenue venues[] = result.getResult().getVenues();
+            Vector<String> venueNames = new Vector<String>(venues.length);
             for (CompactVenue venue : venues) {
                 System.out.println(venue.getName());
+                venueNames.add(venue.getName());
             }
+
+            return venueNames;
         } else {
-            // TODO: Proper error handling
-            System.out.println("Error occured: ");
+            System.out.println("FoursquareAPI.searchVenues(): Error occured: ");
             System.out.println("  code: " + result.getMeta().getCode());
             System.out.println("  type: " + result.getMeta().getErrorType());
             System.out.println("  detail: " + result.getMeta().getErrorDetail());
+            return null;
         }
     }
 
 
 
-    // Authentication
-    public void authenticationRequest(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            // First we need to redirect our user to authentication page.
-            response.sendRedirect(foursquareApi.getAuthenticationUrl());
-        } catch (IOException e) {
-            // TODO: Error handling
-        }
+    // Adapted from https://code.google.com/p/foursquare-api-java/wiki/AuthenticationExample
+    public void authenticateClient() {
+
+        // First we need to redirect our user to authentication page.
+        String authURL = foursquareApi.getAuthenticationUrl();
+        openWebpage(authURL);
     }
 
-    public void handleCallback(HttpServletRequest request, HttpServletResponse response) {
+    public void submitAccessCode(String code) {
         // After user has logged in and confirmed that our program may access user's Foursquare account
-        // Foursquare redirects user back to callback url.
-        // Callback url contains authorization code
-        String code = request.getParameter("code");
+        // Foursquare redirects user back to callback url which contains authorization code.
         try {
             // finally we need to authenticate that authorization code
             foursquareApi.authenticateCode(code);
@@ -93,6 +94,34 @@ public class FoursquareAPI {
         } catch (FoursquareApiException e) {
             // TODO: Error handling
         }
+    }
+
+    public static void openWebpage(URI uri) {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void openWebpage(String url) {
+        URL urlObject = null;
+        try {
+            urlObject = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            openWebpage(urlObject.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void checkInAt(CompactVenue venue) {
     }
 
 }
