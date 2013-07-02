@@ -95,7 +95,7 @@ public class FoursquareAPI {
         openWebpage(authURL);
     }
 
-    public void submitAccessCode(String code) {
+    public static void submitAccessCode(String code) {
         // After user has logged in and confirmed that our program may access user's Foursquare account
         // Foursquare redirects user back to callback url which contains authorization code.
         try {
