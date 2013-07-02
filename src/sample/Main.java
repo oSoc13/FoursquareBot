@@ -36,9 +36,9 @@ public class Main extends Application {
         FoursquareAPI fsAPI = new FoursquareAPI();
 
         // Authenticate user
-        //String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
-        //fsAPI.authenticateClient();
-        //fsAPI.submitAccessCode(code);
+        String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
+        fsAPI.authenticateClient();
+        fsAPI.submitAccessCode(code);
 
         // Search for venues
         try {

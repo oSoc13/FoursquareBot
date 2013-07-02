@@ -24,16 +24,14 @@ import fi.foyt.foursquare.api.entities.Checkin;
 import fi.foyt.foursquare.api.entities.CompactVenue;
 import fi.foyt.foursquare.api.FoursquareApiException;
 import fi.foyt.foursquare.api.Result;
+import fi.foyt.foursquare.api.entities.CompleteUser;
 import fi.foyt.foursquare.api.entities.VenuesSearchResult;
-import org.json.JSONException;
 
 public class FoursquareAPI {
 
     private FoursquareApi foursquareApi;
     private Properties properties = new Properties();
     private CompactVenue venues[];
-    private double lat;
-    private double alt;
 
     public FoursquareAPI() {
 
@@ -126,20 +124,31 @@ public class FoursquareAPI {
     }
 
     public void checkInAt(String venueName) {
-        for (CompactVenue venue : venues) {
-            if (venueName == venue.getName()) {
-                String venueId = venue.getId();
-                try {
+
+        try {
+            for (CompactVenue venue : venues) {
+                if (venueName == venue.getName()) {
+                    String venueId = venue.getId();
                     Result<Checkin> result = foursquareApi.checkinsAdd(venueId, null, null, null, null, null, null, null);
                     if (null != result)
                         System.out.println("Check-in success!");
                     return;
-                } catch (FoursquareApiException e) {
-                    e.printStackTrace();
                 }
             }
+        } catch (FoursquareApiException e) {
+            e.printStackTrace();
         }
         System.out.println("Check-in failed.");
+    }
+
+
+    public boolean userIsAuthenticated() {
+        try {
+            Result<CompleteUser> user = foursquareApi.user("self");
+            return null != user ;
+        } catch (FoursquareApiException e) {
+            e.printStackTrace();
+        }
     }
 
 }
