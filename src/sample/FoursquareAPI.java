@@ -25,7 +25,6 @@ import fi.foyt.foursquare.api.entities.CompactVenue;
 import fi.foyt.foursquare.api.FoursquareApiException;
 import fi.foyt.foursquare.api.Result;
 import fi.foyt.foursquare.api.entities.VenuesSearchResult;
-import org.json.JSONException;
 
 public class FoursquareAPI {
     private static FoursquareAPI instance = null;
