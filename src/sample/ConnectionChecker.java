@@ -36,7 +36,13 @@ public class ConnectionChecker {
             } catch (IOException e) {
                 //todo
             }
-
+            while(!api.userIsAuthenticated()){
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
             doCheckIn();
 
             try {

@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
 
 import java.awt.*;
@@ -19,7 +20,8 @@ public class Controller {
     @FXML
     private javafx.scene.control.Button buttonLogin;
 
-    private javafx.scene.text.Text textPassword;
+    @FXML
+    private PasswordField textPassword;
 
 
     public void initialize() {
