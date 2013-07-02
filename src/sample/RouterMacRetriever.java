@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class RouterMacRetriever {
 
-    String getMACAddress(){
+    public String getMACAddress(){
         try {
             return getRouterMac(getRouterIP());
         } catch (IOException e) {
@@ -28,14 +28,19 @@ public class RouterMacRetriever {
         return null;
     }
 
+    /*
+    Testmethod
+     */
     public static void main(String[] args)throws IOException {
         RouterMacRetriever retriever = new RouterMacRetriever();
         String mac = retriever.getMACAddress();
         System.out.println("Mac adress: " + mac);
     }
 
+    /*
+    Run command to get router mac address when IP is provided
+     */
     private String getRouterMac(String routerIp) throws IOException {
-        Process process;
         if (OSChecker.isMac()){
             String cmd[] = {
                     "/bin/sh",
@@ -43,28 +48,23 @@ public class RouterMacRetriever {
                     "arp " + routerIp
             };
 
-            process = Runtime.getRuntime().exec(cmd);
-            parseMACMac(getProcessResult(process));
+            Process process = Runtime.getRuntime().exec(cmd);
+            return parseMACMac(getProcessResult(process));
         }else if(OSChecker.isWindows()){
-            process = Runtime.getRuntime().exec("");
+            //todo
         }else if(OSChecker.isUnix()){
-            process = Runtime.getRuntime().exec("netstat -rn | grep 0.0.0.0");
+            Process process = Runtime.getRuntime().exec("arp");
+            return  parseMACLinux(getProcessResult(process));
         }else{
-            throw new RuntimeException("Unsupported OS");//bad runtime
+            //todo other OS
         }
-
-        BufferedReader stdInput = new BufferedReader(new
-                InputStreamReader(process.getInputStream()));
-
-        String s;
-        while ((s = stdInput.readLine()) != null) {
-            System.out.println(s);
-        }
-        return "";
+        return null;
     }
 
+    /*
+    Run command to get router IP adress
+     */
     private String getRouterIP() throws IOException {
-        String result = "";
         if (OSChecker.isMac()){
             String cmd[] = {
                     "/bin/sh",
@@ -73,16 +73,15 @@ public class RouterMacRetriever {
             };
 
             Process process = Runtime.getRuntime().exec(cmd);
-            result = parseIPMac(getProcessResult(process));
+            return parseIPMac(getProcessResult(process));
         }else if(OSChecker.isWindows()){
-            Process process = Runtime.getRuntime().exec("");
+            //todo
         }else if(OSChecker.isUnix()){
-            Process process = Runtime.getRuntime().exec("arp");
-            return  parseMACLinux(getProcessResult(process));
+
         }else{
             throw new RuntimeException("Unsupported OS");//bad runtime
         }
-        return result;
+        return "";
     }
 
     private String parseMACLinux(List<String> result) {
