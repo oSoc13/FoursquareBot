@@ -28,12 +28,19 @@ import fi.foyt.foursquare.api.entities.CompleteUser;
 import fi.foyt.foursquare.api.entities.VenuesSearchResult;
 
 public class FoursquareAPI {
-
+    private static FoursquareAPI instance = null;
     private FoursquareApi foursquareApi;
     private Properties properties = new Properties();
     private CompactVenue venues[];
 
-    public FoursquareAPI() {
+    public static FoursquareAPI getInstance() {
+        if(instance == null) {
+            instance = new FoursquareAPI();
+        }
+        return instance;
+    }
+
+    protected FoursquareAPI() {
 
         String clientID;
         String clientSecret;
@@ -98,7 +105,7 @@ public class FoursquareAPI {
         }
     }
 
-    public static void openWebpage(URI uri) {
+    public void openWebpage(URI uri) {
         Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -109,7 +116,7 @@ public class FoursquareAPI {
         }
     }
 
-    public static void openWebpage(String url) {
+    public void openWebpage(String url) {
         URL urlObject = null;
         try {
             urlObject = new URL(url);

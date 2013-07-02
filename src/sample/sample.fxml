@@ -12,23 +12,29 @@
 
 <GridPane alignment="CENTER" hgap="10.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml" fx:controller="sample.Controller">
   <children>
-    <VBox prefHeight="200.0" prefWidth="300.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <VBox prefHeight="200.0" prefWidth="352.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
       <children>
         <HBox prefHeight="100.0" prefWidth="200.0">
           <children>
-            <Label text="Foursquare username:" />
-            <TextField fx:id="textUsername" prefWidth="158.0" />
+            <Label text="Please log in and allow us access to your Foursquare account:" />
           </children>
           <padding>
             <Insets left="10.0" top="10.0" fx:id="x1" />
           </padding>
         </HBox>
-        <HBox padding="$x1" prefHeight="100.0" prefWidth="200.0">
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
           <children>
-            <Label text="Password:" />
-            <Separator prefWidth="65.0" />
+            <Button fx:id="loginButton" mnemonicParsing="false" text="Log in to Foursquare" />
+          </children>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="200.0">
+          <children>
+            <Label prefWidth="175.0" text="Paste your code from the URL:" />
             <PasswordField fx:id="textPassword" prefWidth="157.9998779296875" />
           </children>
+          <padding>
+            <Insets left="10.0" top="10.0" fx:id="x1" />
+          </padding>
         </HBox>
         <HBox id="" fillHeight="false" prefHeight="37.0" prefWidth="300.0">
           <children>
@@ -41,7 +47,7 @@
         <HBox prefHeight="100.0" prefWidth="200.0">
           <children>
             <Separator prefWidth="128.0" />
-            <Button fx:id="buttonLogin" mnemonicParsing="false" prefWidth="158.0" text="Authenticate" />
+            <Button fx:id="buttonLogin" mnemonicParsing="false" prefWidth="158.0" text="Save" />
           </children>
           <padding>
             <Insets top="5.0" />
