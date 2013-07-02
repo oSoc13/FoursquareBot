@@ -1,6 +1,8 @@
 package sample;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,18 +18,35 @@ public class ConnectionChecker {
     }
 
     public void run(){
-        /*InetAddress adr = InetAddress.getByName();
+        InetAddress adr = null;
+        try {
+            adr = InetAddress.getByName("8.8.8.8");
+        } catch (UnknownHostException e) {
+            //todo
+        }
 
         while(true){
-            while(!adr.isReachable(3000)){
+            try {
+                while(!adr.isReachable(3000)){
 
+                }
+            } catch (IOException e) {
+                //todo
             }
 
-            api.checkInAt();
+            doCheckIn();
 
-            while(adr.isReachable(3000)){
+            try {
+                while(adr.isReachable(3000)){
 
+                }
+            } catch (IOException e) {
+                //todo
             }
-        } */
+        }
+    }
+
+    private void doCheckIn() {
+        //check in logic
     }
 }
