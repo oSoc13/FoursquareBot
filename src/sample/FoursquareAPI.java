@@ -53,10 +53,11 @@ public class FoursquareAPI {
         // After client has been initialized we can make queries.
         Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 
+        System.out.println("Venue List:");
         if (result.getMeta().getCode() == 200) {
             // if query was ok we can finally we do something with the data
-            for (CompactVenue venue : result.getResult().getVenues()) {
-                // TODO: Do something we the data
+            CompactVenue venues[] = result.getResult().getVenues();
+            for (CompactVenue venue : venues) {
                 System.out.println(venue.getName());
             }
         } else {

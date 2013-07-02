@@ -55,3 +55,7 @@ Icon
 ### Java FX
 
 out/
+
+#
+src/config.properties
+
