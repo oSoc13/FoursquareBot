@@ -9,23 +9,23 @@ package sample;
  */
 public class OSChecker {
 
-        public static String getOs(){
-            return System.getProperty("os.name").toLowerCase();
-        }
+    public static String getOs(){
+        return System.getProperty("os.name").toLowerCase();
+    }
 
-        public static boolean isWindows() {
-            return (getOs().contains("win"));
-        }
+    public static boolean isWindows() {
+        return (getOs().contains("win"));
+    }
 
-        public static boolean isMac() {
-            return (getOs().contains("mac"));
-        }
+    public static boolean isMac() {
+        return (getOs().contains("mac"));
+    }
 
-        public static boolean isUnix() {
-            return (getOs().contains("nix") || getOs().contains("nux") || getOs().contains("aix"));
-        }
+    public static boolean isUnix() {
+        return (getOs().contains("nix") || getOs().contains("nux") || getOs().contains("aix"));
+    }
 
-        public static boolean isSolaris() {
-            return (getOs().contains("sunos"));
-        }
+    public static boolean isSolaris() {
+        return (getOs().contains("sunos"));
+    }
 }
