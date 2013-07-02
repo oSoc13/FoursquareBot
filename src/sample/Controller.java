@@ -35,7 +35,7 @@ public class Controller {
         buttonLogin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                FoursquareAPI.submitAccessCode(textPassword.getText());
+                FoursquareAPI.getInstance().submitAccessCode(textPassword.getText());
             }
 
         });

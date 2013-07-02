@@ -36,6 +36,7 @@ public class Main extends Application {
 
         fsAPI = FoursquareAPI.getInstance();
 
+
         ConnectionChecker checker = new ConnectionChecker(fsAPI);
         checker.run();
         // Authenticate user

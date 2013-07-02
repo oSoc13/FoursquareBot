@@ -94,7 +94,7 @@ public class FoursquareAPI {
         openWebpage(authURL);
     }
 
-    public static void submitAccessCode(String code) {
+    public void submitAccessCode(String code) {
         // After user has logged in and confirmed that our program may access user's Foursquare account
         // Foursquare redirects user back to callback url which contains authorization code.
         try {
@@ -106,7 +106,7 @@ public class FoursquareAPI {
         }
     }
 
-    public static void openWebpage(URI uri) {
+    public void openWebpage(URI uri) {
         Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -117,7 +117,7 @@ public class FoursquareAPI {
         }
     }
 
-    public static void openWebpage(String url) {
+    public void openWebpage(String url) {
         URL urlObject = null;
         try {
             urlObject = new URL(url);
