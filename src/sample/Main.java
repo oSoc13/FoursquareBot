@@ -32,18 +32,13 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
 
         FoursquareAPI fsAPI = new FoursquareAPI();
 
         // Authenticate user
-        String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
-        fsAPI.authenticateClient();
-        fsAPI.submitAccessCode(code);
+        //String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
+        //fsAPI.authenticateClient();
+        //fsAPI.submitAccessCode(code);
 
         // Search for venues
         try {
@@ -58,6 +53,11 @@ public class Main extends Application {
         }
 
 
+    }
+
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
     public void createTrayIcon(final Stage stage)
