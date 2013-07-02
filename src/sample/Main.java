@@ -36,6 +36,7 @@ public class Main extends Application {
         FoursquareAPI fsAPI = new FoursquareAPI();
 
         ConnectionChecker checker = new ConnectionChecker(fsAPI);
+        checker.run();
         // Authenticate user
         //String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
         //fsAPI.authenticateClient();
