@@ -22,6 +22,7 @@ import java.util.Vector;
 public class Main extends Application {
     private boolean firstTime;
     private TrayIcon trayIcon;
+    public static FoursquareAPI fsAPI;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -38,7 +39,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
 
-        FoursquareAPI fsAPI = new FoursquareAPI();
+        fsAPI = FoursquareAPI.getInstance();
 
         // Authenticate user
         String code = "DPJ45L0LTEJ0BUKLJAEVKEEO3PWC55JIYJX5HGODR35HKQEH";
@@ -49,7 +50,7 @@ public class Main extends Application {
         try {
             Vector<String> venues = fsAPI.getNearbyVenues("50.951983,5.348959");
             if (null != venues) {
-                fsAPI.checkInAt("Mobile Vikings");
+                //fsAPI.checkInAt("Mobile Vikings");
             }
             else {
             }

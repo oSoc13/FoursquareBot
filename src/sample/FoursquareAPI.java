@@ -27,11 +27,18 @@ import fi.foyt.foursquare.api.entities.VenuesSearchResult;
 import org.json.JSONException;
 
 public class FoursquareAPI {
-
+    private static FoursquareAPI instance = null;
     private FoursquareApi foursquareApi;
     private Properties properties = new Properties();
 
-    public FoursquareAPI() {
+    public static FoursquareAPI getInstance() {
+        if(instance == null) {
+            instance = new FoursquareAPI();
+        }
+        return instance;
+    }
+
+    protected FoursquareAPI() {
 
         String clientID;
         String clientSecret;
