@@ -155,6 +155,7 @@ public class FoursquareAPI {
             return null != user ;
         } catch (FoursquareApiException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
